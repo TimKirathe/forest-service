@@ -18,8 +18,14 @@ class EndangeredAnimalTest {
         assertEquals("Elephant", testAnimal.getName());
     }
 
+    @Test
+    void uniqueVariablesEqualTheConstantsCreated() {
+        EndangeredAnimal testAnimal = setUpAnimal();
+        assertEquals(testAnimal.getHealth(), EndangeredAnimal.AV_HEALTH);
+    }
+
     public EndangeredAnimal setUpAnimal() {
-        EndangeredAnimal testAnimal = new EndangeredAnimal("Elephant");
+        EndangeredAnimal testAnimal = new EndangeredAnimal("Elephant", "okay", "young");
         return testAnimal;
     }
 
