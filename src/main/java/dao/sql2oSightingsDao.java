@@ -17,7 +17,7 @@ public class sql2oSightingsDao implements sightingsDao {
     @Override
     public void save(Sighting sighting) {
         try(Connection con = sql2o.open()) {
-            String sql = "INSERT INTO sightings (animalid, location, ranger_name) VALUES (:animalId, :location, :rangerName)";
+            String sql = "INSERT INTO sightings (animalid, location, ranger_name, sighted_at) VALUES (:animalId, :location, :rangerName, now())";
             int id = (int) con.createQuery(sql)
                     .bind(sighting)
                     .addParameter("animalId", sighting.getAnimalId())

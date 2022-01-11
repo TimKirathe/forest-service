@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import dao.*;
 import org.sql2o.*;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,6 +87,18 @@ class SightingTest {
         List<Sighting> sightings = sql2oSightingsDao.returnAll();
         assertTrue(sightings.contains(testSighting1));
         assertTrue(sightings.contains(testSighting2));
+    }
+
+    @Test
+    void timestampOfMonsterCreationIsRecorded() {
+        NormalAnimal testNormalAnimal = new NormalAnimal("Hyena");
+        sql2oNormalAnimalDao.save(testNormalAnimal);
+        Sighting testSighting = new Sighting(testNormalAnimal.getId(), "here", "hi");
+        sql2oSightingsDao.save(testSighting);
+        Timestamp seenAt = sql2oSightingsDao.findById(testSighting.getId()).getSightedAt();
+        long millis = System.currentTimeMillis();
+        Date rightNow = new Date(millis);
+        assertEquals(DateFormat.getDateTimeInstance().format(seenAt), DateFormat.getDateTimeInstance().format(rightNow));
     }
 
     public Sighting setUpSighting() {
