@@ -39,7 +39,7 @@ public class App {
         get("/endangered-sightings/new", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             return new ModelAndView(model, "endangered-sighting-form.hbs");
-        });
+        }, new HandlebarsTemplateEngine());
 
         //post: Post Normal Animal Form
         post("/normal-sightings/new", (request, response) -> {
