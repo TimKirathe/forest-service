@@ -4,3 +4,5 @@ DROP TABLE wildlife_tracker.public.animals;
 DROP TABLE wildlife_tracker.public.sightings;
 DROP TABLE wildlife_tracker_test.public.animals;
 DROP TABLE wildlife_tracker_test.public.sightings;
+DROP TABLE wildlife_tracker.public.sightings_animals;
+DROP TABLE wildlife_tracker_test.public.sightings_animals;

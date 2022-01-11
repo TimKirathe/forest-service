@@ -17,4 +17,10 @@ CREATE TABLE sightings
     ranger_name varchar
 );
 
+CREATE TABLE sightings_animals (
+    id SERIAL PRIMARY KEY,
+    sightingid int,
+    animalid int
+);
+
 CREATE DATABASE wildlife_tracker_test WITH TEMPLATE wildlife_tracker;
