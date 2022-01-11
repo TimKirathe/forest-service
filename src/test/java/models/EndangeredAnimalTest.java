@@ -33,6 +33,7 @@ class EndangeredAnimalTest {
 
     @AfterAll
     public static void tearDown() {
+        conn.createQuery("DELETE FROM animals");
         conn.close();
     }
 
