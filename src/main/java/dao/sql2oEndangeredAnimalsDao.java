@@ -1,22 +1,22 @@
 package dao;
 
-import models.NormalAnimal;
+import models.EndangeredAnimal;
 import org.sql2o.*;
 
 import java.util.List;
 
-public class sql2oNormalAnimalDao implements normalAnimalsDao {
+public class sql2oEndangeredAnimalsDao implements endangeredAnimalsDao {
 
     private final Sql2o sql2o;
 
-    public sql2oNormalAnimalDao(Sql2o sql2o) {
+    public sql2oEndangeredAnimalsDao(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
 
     @Override
-    public void save(NormalAnimal animal) {
+    public void save(EndangeredAnimal animal) {
         try(Connection con = sql2o.open()) {
-            String sql = "INSERT INTO animals (name, type) VALUES (:name, 'normal')";
+            String sql = "INSERT INTO animals (name, type) VALUES (:name, 'endangered')";
             int id = (int) con.createQuery(sql, true)
                     .bind(animal)
                     .addParameter("name", animal.getName())
@@ -27,18 +27,18 @@ public class sql2oNormalAnimalDao implements normalAnimalsDao {
     }
 
     @Override
-    public List<NormalAnimal> returnAll() {
+    public List<EndangeredAnimal> returnAll() {
         try(Connection con = sql2o.open()) {
-            String sql = "SELECT * FROM animals WHERE type = 'normal'";
-            return con.createQuery(sql).executeAndFetch(NormalAnimal.class);
+            String sql = "SELECT * FROM animals WHERE type = 'endangered'";
+            return con.createQuery(sql).executeAndFetch(EndangeredAnimal.class);
         }
     }
 
     @Override
-    public NormalAnimal findById(int id) {
+    public EndangeredAnimal findById(int id) {
         try(Connection con = sql2o.open()) {
-            String sql = "SELECT * FROM animals WHERE type = 'normal' AND id = :id";
-            return con.createQuery(sql).addParameter("id", id).executeAndFetchFirst(NormalAnimal.class);
+            String sql = "SELECT * FROM animals WHERE type = 'endangered' AND id = :id";
+            return con.createQuery(sql).addParameter("id", id).executeAndFetchFirst(EndangeredAnimal.class);
         }
     }
 
@@ -49,7 +49,4 @@ public class sql2oNormalAnimalDao implements normalAnimalsDao {
             con.createQuery(sql).executeUpdate();
         }
     }
-
-
-
 }

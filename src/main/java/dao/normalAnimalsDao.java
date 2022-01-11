@@ -11,4 +11,7 @@ public interface normalAnimalsDao {
     List<NormalAnimal> returnAll();
 
     NormalAnimal findById(int id);
+
+
+    void clearAllAnimals();
 }

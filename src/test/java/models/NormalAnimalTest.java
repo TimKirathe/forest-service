@@ -24,7 +24,9 @@ class NormalAnimalTest {
     }
 
     @AfterEach
-    public void afterEach() {}
+    public void afterEach() {
+        sql2oNormalAnimalDao.clearAllAnimals();
+    }
 
     @AfterAll
     public static void tearDown() {
@@ -67,7 +69,7 @@ class NormalAnimalTest {
         sql2oNormalAnimalDao.save(testAnimal2);
         List<NormalAnimal> savedAnimals = sql2oNormalAnimalDao.returnAll();
         assertTrue(savedAnimals.contains(testAnimal1));
-        assertTrue(savedAnimals.add(testAnimal2));
+        assertTrue(savedAnimals.contains(testAnimal2));
     }
 
     public NormalAnimal setUpAnimal() {
