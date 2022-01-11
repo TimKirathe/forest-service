@@ -1,0 +1,14 @@
+{{#partial "content"}}
+
+    {{#if allSightings}}
+        {{#each allSightings}}
+            <p><a href="#">{{animalId}}</a></p>
+            <p>{{location}}</p>
+            <p>{{rangerName}}</p>
+        {{/each}}
+    {{else}}
+        <p>No sightings :(! Head over to the navbar and post a sighting.</p>
+    {{/if}}
+{{/partial}}
+
+{{> layout.hbs}}

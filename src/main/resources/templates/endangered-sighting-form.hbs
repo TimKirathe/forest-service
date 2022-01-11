@@ -1,0 +1,47 @@
+{{#partial "content"}}
+    <h1 class="text-center display-1">New Sighting</h1>
+
+    <form action="/endangered-sightings/new" method="post">
+        <div class="form-group">
+            <label for="animalId">Enter Animal ID:</label>
+            <input class="form-control" type="text" id="animalId" name="animalId" required />
+        </div>
+        <div class="form-group">
+            <label for="animalName">Enter Animal:</label>
+            <input class="form-control" type="text" id="animalName" name="animalName" required />
+        </div>
+        <div class="form-group">
+            <label for="type">Enter Type:</label>
+            <input class="form-control" type="text" id="type" name="type" value="endangered" disabled />
+        </div>
+        <div class="form-group">
+            <label for="health">Select Health:</label>
+            <select id="health" name="health">
+                <option>healthy</option>
+                <option>okay</option>
+                <option>ill</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="age">Select Age:</label>
+            <select id="age" name="age">
+                <option>adult</option>
+                <option>young</option>
+                <option>newborn</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="location">Enter Location:</label>
+            <input class="form-control" type="text" id="location" name="location" required />
+        </div>
+        <div class="form-group">
+            <label for="rangerName">Enter Your Name:</label>
+            <input class="form-control" type="text" id="rangerName" name="rangerName" required />
+        </div>
+
+        <br>
+        <button type="submit" class="btn btn-outline-primary">Submit!</button>
+    </form>
+{{/partial}}
+
+{{> layout.hbs}}
