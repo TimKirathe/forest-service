@@ -18,6 +18,14 @@ class NormalAnimalTest {
         assertEquals("Lion", testAnimal.getName());
     }
 
+    @Test
+    void equalsMethodWorks() {
+        NormalAnimal testAnimal1 = setUpAnimal();
+        NormalAnimal testAnimal2 = setUpAnimal();
+        assertTrue(testAnimal1.equals(testAnimal2));
+
+    }
+
     public NormalAnimal setUpAnimal() {
         NormalAnimal testAnimal = new NormalAnimal("Lion");
         return testAnimal;
