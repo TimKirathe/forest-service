@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import dao.*;
 import org.sql2o.*;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SightingTest {
@@ -67,6 +69,21 @@ class SightingTest {
         sql2oSightingsDao.save(testSighting);
         assertEquals(testSighting, sql2oSightingsDao.findById(testSighting.getId()));
 
+    }
+
+    @Test
+    void allSightingsAreReturned() {
+        NormalAnimal testNormalAnimal = new NormalAnimal("Hyena");
+        sql2oNormalAnimalDao.save(testNormalAnimal);
+        EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Snake", "okay", "young");
+        sql2oEndangeredAnimalsDao.save(testEndangeredAnimal);
+        Sighting testSighting1 = new Sighting(testNormalAnimal.getId(), "Savannah", "Rodgers");
+        Sighting testSighting2 = new Sighting(testEndangeredAnimal.getId(), "Hills", "Rodgers");
+        sql2oSightingsDao.save(testSighting1);
+        sql2oSightingsDao.save(testSighting2);
+        List<Sighting> sightings = sql2oSightingsDao.returnAll();
+        assertTrue(sightings.contains(testSighting1));
+        assertTrue(sightings.contains(testSighting2));
     }
 
     public Sighting setUpSighting() {
