@@ -9,4 +9,6 @@ public interface normalAnimalsDao {
     void save(NormalAnimal animal);
 
     List<NormalAnimal> returnAll();
+
+    NormalAnimal findById(int id);
 }

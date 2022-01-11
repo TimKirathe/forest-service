@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import dao.*;
 import org.sql2o.*;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NormalAnimalTest {
@@ -53,8 +55,19 @@ class NormalAnimalTest {
     void normalAnimalIsSavedOnDB() {
         NormalAnimal testAnimal1 = setUpAnimal();
         sql2oNormalAnimalDao.save(testAnimal1);
-        NormalAnimal savedAnimal = sql2oNormalAnimalDao.returnAll().get(0);
+        NormalAnimal savedAnimal = sql2oNormalAnimalDao.findById(testAnimal1.getId());
         assertEquals(savedAnimal.getName(), testAnimal1.getName());
+    }
+
+    @Test
+    void allNormalAnimalsAreReturnedFrom() {
+        NormalAnimal testAnimal1 = setUpAnimal();
+        sql2oNormalAnimalDao.save(testAnimal1);
+        NormalAnimal testAnimal2 = new NormalAnimal("Zebra");
+        sql2oNormalAnimalDao.save(testAnimal2);
+        List<NormalAnimal> savedAnimals = sql2oNormalAnimalDao.returnAll();
+        assertTrue(savedAnimals.contains(testAnimal1));
+        assertTrue(savedAnimals.add(testAnimal2));
     }
 
     public NormalAnimal setUpAnimal() {
