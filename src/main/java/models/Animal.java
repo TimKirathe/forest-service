@@ -2,14 +2,11 @@ package models;
 
 import java.util.Objects;
 
-public class Animal {
+public abstract class Animal {
 
-    private int id;
-    private String name;
+    public int id;
+    public String name;
 
-    public Animal(String name) {
-        this.name = name;
-    }
 
     public int getId() {
         return id;
