@@ -4,6 +4,7 @@ public class EndangeredAnimal extends Animal {
 
     private String health;
     private String age;
+    private String type = "endangered";
 
     public static final String MAX_HEALTH = "healthy";
     public static final String AV_HEALTH = "okay";
@@ -28,5 +29,7 @@ public class EndangeredAnimal extends Animal {
         return health;
     }
 
-
+    public String getType() {
+        return type;
+    }
 }
