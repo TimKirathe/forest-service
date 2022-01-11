@@ -101,6 +101,18 @@ class SightingTest {
         assertEquals(DateFormat.getDateTimeInstance().format(seenAt), DateFormat.getDateTimeInstance().format(rightNow));
     }
 
+    @Test
+    void sightedMonstersAreReturned() {
+        NormalAnimal testNormalAnimal = new NormalAnimal("Hyena");
+        sql2oNormalAnimalDao.save(testNormalAnimal);
+        EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Snake", "okay", "young");
+        sql2oEndangeredAnimalsDao.save(testEndangeredAnimal);
+        Sighting testSighting1 = new Sighting(testNormalAnimal.getId(), "Savannah", "Rodgers");
+        Sighting testSighting2 = new Sighting(testEndangeredAnimal.getId(), "Hills", "Rodgers");
+        sql2oSightingsDao.save(testSighting1);
+        sql2oSightingsDao.save(testSighting2);
+    }
+
     public Sighting setUpSighting() {
         Sighting sighting = new Sighting(1, "Up", "Rodgers");
         return sighting;
