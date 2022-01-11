@@ -1,7 +1,7 @@
 DROP DATABASE wildlife_tracker;
 CREATE DATABASE wildlife_tracker;
 
-\c wildlife_tacker
+\c wildlife_tracker
 
 CREATE TABLE animals (
  id SERIAL PRIMARY KEY,
