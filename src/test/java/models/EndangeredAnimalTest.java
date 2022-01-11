@@ -1,9 +1,6 @@
 package models;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 import dao.*;
@@ -18,7 +15,7 @@ class EndangeredAnimalTest {
     private static sql2oEndangeredAnimalsDao sql2oEndangeredAnimalsDao;
     private static Connection conn;
 
-    @BeforeEach
+    @BeforeAll
     public static void setUp() {
         String connectionString = "jdbc:postgresql://localhost:5432/wildlife_tracker_test";
         Sql2o sql2o = new Sql2o(connectionString, null, null);
@@ -72,6 +69,22 @@ class EndangeredAnimalTest {
         List<EndangeredAnimal> savedAnimals = sql2oEndangeredAnimalsDao.returnAll();
         assertTrue(savedAnimals.contains(testAnimal1));
         assertTrue(savedAnimals.contains(testAnimal2));
+    }
+
+    @Test
+    void exceptionIsThrownFromInvalidInput() {
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            EndangeredAnimal testAnimal = new EndangeredAnimal("Vulture", "medium", "adult");
+        });
+        assertEquals("Input a valid option for the animals health!", thrown.getMessage());
+    }
+
+    @Test
+    void exceptionIsThrownFromInvalidInput2() {
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            EndangeredAnimal testAnimal = new EndangeredAnimal("Vulture", "okay", "old");
+        });
+        assertEquals("Input a valid option for the animals age!", thrown.getMessage());
     }
 
     public EndangeredAnimal setUpAnimal() {

@@ -1,5 +1,6 @@
 package models;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Sighting {
@@ -8,11 +9,16 @@ public class Sighting {
     private int animalId;
     private String location;
     private String ranger_name;
+    private Timestamp sighted_at;
 
     public Sighting(int animalId, String location, String rangerName) {
         this.animalId = animalId;
         this.location = location;
         this.ranger_name = rangerName;
+    }
+
+    public Timestamp getSightedAt() {
+        return sighted_at;
     }
 
     public int getAnimalId() {
