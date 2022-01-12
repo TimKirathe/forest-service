@@ -16,10 +16,12 @@ public class sql2oEndangeredAnimalsDao implements endangeredAnimalsDao {
     @Override
     public void save(EndangeredAnimal animal) {
         try(Connection con = sql2o.open()) {
-            String sql = "INSERT INTO animals (name, type) VALUES (:name, 'endangered')";
+            String sql = "INSERT INTO animals (name, type, health, age) VALUES (:name, 'endangered', :health, :age)";
             int id = (int) con.createQuery(sql, true)
                     .bind(animal)
                     .addParameter("name", animal.getName())
+                    .addParameter("health", animal.getHealth())
+                    .addParameter("age", animal.getAge())
                     .executeUpdate()
                     .getKey();
             animal.setId(id);

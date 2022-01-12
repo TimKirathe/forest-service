@@ -30,7 +30,7 @@ public class sql2oNormalAnimalDao implements normalAnimalsDao {
     public List<NormalAnimal> returnAll() {
         try(Connection con = sql2o.open()) {
             String sql = "SELECT * FROM animals WHERE type = 'normal'";
-            return con.createQuery(sql).executeAndFetch(NormalAnimal.class);
+            return con.createQuery(sql).throwOnMappingFailure(false).executeAndFetch(NormalAnimal.class);
         }
     }
 
@@ -38,7 +38,7 @@ public class sql2oNormalAnimalDao implements normalAnimalsDao {
     public NormalAnimal findById(int id) {
         try(Connection con = sql2o.open()) {
             String sql = "SELECT * FROM animals WHERE type = 'normal' AND id = :id";
-            return con.createQuery(sql).addParameter("id", id).executeAndFetchFirst(NormalAnimal.class);
+            return con.createQuery(sql).throwOnMappingFailure(false).addParameter("id", id).executeAndFetchFirst(NormalAnimal.class);
         }
     }
 
