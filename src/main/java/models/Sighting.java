@@ -10,11 +10,17 @@ public class Sighting {
     private String location;
     private String ranger_name;
     private Timestamp sighted_at;
+    private String type;
 
-    public Sighting(int animalId, String location, String rangerName) {
+    public Sighting(int animalId, String location, String rangerName, String type) {
         this.animalId = animalId;
         this.location = location;
         this.ranger_name = rangerName;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public Timestamp getSightedAt() {

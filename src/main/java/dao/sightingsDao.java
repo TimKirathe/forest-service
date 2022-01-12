@@ -1,6 +1,8 @@
 package dao;
 
 import models.Animal;
+import models.EndangeredAnimal;
+import models.NormalAnimal;
 import models.Sighting;
 
 import java.util.List;
@@ -17,5 +19,8 @@ public interface sightingsDao {
 
     void addSightingAndAnimal(int sightingId, int animalId);
 
-    List<Object> showAnimalsSighted(int sightingId);
+    NormalAnimal showNormalAnimal(int animalId, String type);
+
+    EndangeredAnimal showEndangeredAnimal(int animalId, String type);
+
 }

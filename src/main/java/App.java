@@ -51,7 +51,7 @@ public class App {
             String rangerName = request.queryParams("rangerName");
             NormalAnimal normalAnimal = new NormalAnimal(animalName);
             sql2oNormalAnimalDao.save(normalAnimal);
-            Sighting newSighting = new Sighting(animalId, location, rangerName);
+            Sighting newSighting = new Sighting(animalId, location, rangerName, animalType);
             sql2oSightingsDao.save(newSighting);
             List<NormalAnimal> normalAnimals = sql2oNormalAnimalDao.returnAll();
             model.put("normalAnimals", normalAnimals);
@@ -71,10 +71,41 @@ public class App {
             String rangerName = request.queryParams("rangerName");
             EndangeredAnimal endangeredAnimal = new EndangeredAnimal(endangeredAnimalName, health, age);
             sql2oEndangeredAnimalsDao.save(endangeredAnimal);
-            Sighting newSighting = new Sighting(endangeredAnimalId, location, rangerName);
+            Sighting newSighting = new Sighting(endangeredAnimalId, location, rangerName, type);
             sql2oSightingsDao.save(newSighting);
             List<EndangeredAnimal> endangeredAnimals = sql2oEndangeredAnimalsDao.returnAll();
-            model.put("normalAnimals", endangeredAnimals);
+            model.put("endangeredAnimals", endangeredAnimals);
+            response.redirect("/");
+            return null;
+        }, new HandlebarsTemplateEngine());
+
+        //get: Animal display page
+        get("/animal/:id/:type", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            Integer id = Integer.parseInt(request.params("id"));
+            String type = request.params("type");
+            if (Objects.equals(type, "normal")) {
+                NormalAnimal normalAnimal = sql2oSightingsDao.showNormalAnimal(id, type);
+                List<NormalAnimal> normalAnimals = new ArrayList<>();
+                normalAnimals.add(normalAnimal);
+                model.put("normal", true);
+                model.put("normalAnimal", normalAnimal);
+            }
+            else if (Objects.equals(type, "endangered")) {
+                EndangeredAnimal endangeredAnimal = sql2oSightingsDao.showEndangeredAnimal(id, type);
+                List<EndangeredAnimal> endangeredAnimals = new ArrayList<>();
+                endangeredAnimals.add(endangeredAnimal);
+                model.put("endangered", true);
+                model.put("endangeredAnimals", endangeredAnimals);
+            }
+            return new ModelAndView(model, "animal-display.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //get: Clear sightings
+        get("/clearSightings", (request, response) -> {
+            sql2oSightingsDao.clearAllSightings();
+            sql2oEndangeredAnimalsDao.clearAllAnimals();
+            sql2oNormalAnimalDao.clearAllAnimals();
             response.redirect("/");
             return null;
         }, new HandlebarsTemplateEngine());

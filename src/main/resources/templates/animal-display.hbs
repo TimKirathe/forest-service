@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,26 +32,26 @@
     <!--begin main template-->
 
     <div class="col-md-12">
-        <h1>View All Your Sightings!</h1>
+        <h1 class="text-center display-1">View The Animal</h1>
 
-        {{#if allSightings}}
-            {{#each allSightings}}
-                <p><a href="/animal/{{animalId}}/{{type}}">{{animalId}}</a></p>
-                <p>{{location}}</p>
-                <p>{{rangerName}}</p>
-                <p><em>{{sightedAt}}</em></p>
-            {{/each}}
-        {{else}}
-            <p>No sightings :(! Head over to the navbar and post a sighting.</p>
+        {{#if normal}}
+            <h2 class="display-2">Normal Animal</h2>
+                <p>{{id}}</p>
+                <p>{{name}}</p>
         {{/if}}
-        <br>
-        <br>
-        <p><a href="/clearSightings">Clear</a> all your sightings</p>
+        <hr>
+        {{#if endangered}}
+            <h2 class="display-2">Endangered Animal</h2>
+        {{#each endangeredAnimals}}
+            <p>{{id}}</p>
+            <p>{{name}}</p>
+            <p>{{health}}</p>
+            <p>{{age}}</p>
+        {{/each}}
+        {{/if}}
 
     </div>
 </div>
 <!--end main template-->
 </body>
 </html>
-
-

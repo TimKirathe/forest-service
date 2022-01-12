@@ -1,5 +1,7 @@
 package dao;
 
+import models.EndangeredAnimal;
+import models.NormalAnimal;
 import models.Sighting;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -18,12 +20,13 @@ public class sql2oSightingsDao implements sightingsDao {
     @Override
     public void save(Sighting sighting) {
         try(Connection con = sql2o.open()) {
-            String sql = "INSERT INTO sightings (animalid, location, ranger_name, sighted_at) VALUES (:animalId, :location, :rangerName, now())";
+            String sql = "INSERT INTO sightings (animalid, location, ranger_name, type, sighted_at) VALUES (:animalId, :location, :rangerName, :type, now())";
             int id = (int) con.createQuery(sql)
                     .bind(sighting)
                     .addParameter("animalId", sighting.getAnimalId())
                     .addParameter("location", sighting.getLocation())
                     .addParameter("rangerName", sighting.getRangerName())
+                    .addParameter("type", sighting.getType())
                     .executeUpdate().getKey();
             sighting.setId(id);
         }
@@ -67,20 +70,27 @@ public class sql2oSightingsDao implements sightingsDao {
     }
 
     @Override
-    public List<Object> showAnimalsSighted(int sightingId) {
+    public NormalAnimal showNormalAnimal(int animalId, String type) {
         try(Connection con = sql2o.open()) {
-            String sql = "SELECT animalid FROM sightings_animals WHERE sightingid = :sightingId";
-            List<Integer> animalIds = con.createQuery(sql)
-                    .addParameter("sightingId", sightingId)
-                    .executeAndFetch(Integer.class);
 
-            List<Object> animals = new ArrayList<>();
+            String sql = "SELECT * FROM animals WHERE id = :id AND type = :type";
 
-            String sql2 = "SELECT * FROM animals WHERE id = :id";
-            for(Integer animalId : animalIds) {
-                animals.add(con.createQuery(sql2).addParameter("id", animalId).executeAndFetchFirst(Object.class));
-            }
-            return animals;
+            return con.createQuery(sql).addParameter("id", animalId)
+                    .addParameter("type", type).executeAndFetchFirst(NormalAnimal.class);
+
+        }
+    }
+
+    @Override
+    public EndangeredAnimal showEndangeredAnimal(int animalId, String type) {
+        try(Connection con = sql2o.open()) {
+
+            String sql2 = "SELECT * FROM animals WHERE id = :id AND type = :type";
+
+            return con.createQuery(sql2).addParameter("id", animalId)
+                    .addParameter("type", type)
+                    .executeAndFetchFirst(EndangeredAnimal.class);
+
         }
     }
 }

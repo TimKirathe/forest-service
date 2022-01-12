@@ -68,7 +68,7 @@ class SightingTest {
     void sightingIsSavedIntoDB() {
         NormalAnimal testNormalAnimal = new NormalAnimal("Hyena");
         sql2oNormalAnimalDao.save(testNormalAnimal);
-        Sighting testSighting = new Sighting(testNormalAnimal.getId(), "Savannah", "Rodgers");
+        Sighting testSighting = new Sighting(testNormalAnimal.getId(), "Savannah", "Rodgers", testNormalAnimal.getType());
         sql2oSightingsDao.save(testSighting);
         assertEquals(testSighting, sql2oSightingsDao.findById(testSighting.getId()));
 
@@ -80,8 +80,8 @@ class SightingTest {
         sql2oNormalAnimalDao.save(testNormalAnimal);
         EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Snake", "okay", "young");
         sql2oEndangeredAnimalsDao.save(testEndangeredAnimal);
-        Sighting testSighting1 = new Sighting(testNormalAnimal.getId(), "Savannah", "Rodgers");
-        Sighting testSighting2 = new Sighting(testEndangeredAnimal.getId(), "Hills", "Rodgers");
+        Sighting testSighting1 = new Sighting(testNormalAnimal.getId(), "Savannah", "Rodgers", testNormalAnimal.getType());
+        Sighting testSighting2 = new Sighting(testEndangeredAnimal.getId(), "Hills", "Rodgers", testEndangeredAnimal.getType());
         sql2oSightingsDao.save(testSighting1);
         sql2oSightingsDao.save(testSighting2);
         List<Sighting> sightings = sql2oSightingsDao.returnAll();
@@ -93,7 +93,7 @@ class SightingTest {
     void timestampOfMonsterCreationIsRecorded() {
         NormalAnimal testNormalAnimal = new NormalAnimal("Hyena");
         sql2oNormalAnimalDao.save(testNormalAnimal);
-        Sighting testSighting = new Sighting(testNormalAnimal.getId(), "here", "hi");
+        Sighting testSighting = new Sighting(testNormalAnimal.getId(), "here", "hi", testNormalAnimal.getType());
         sql2oSightingsDao.save(testSighting);
         Timestamp seenAt = sql2oSightingsDao.findById(testSighting.getId()).getSightedAt();
         long millis = System.currentTimeMillis();
@@ -107,14 +107,14 @@ class SightingTest {
         sql2oNormalAnimalDao.save(testNormalAnimal);
         EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Snake", "okay", "young");
         sql2oEndangeredAnimalsDao.save(testEndangeredAnimal);
-        Sighting testSighting1 = new Sighting(testNormalAnimal.getId(), "Savannah", "Rodgers");
-        Sighting testSighting2 = new Sighting(testEndangeredAnimal.getId(), "Hills", "Rodgers");
+        Sighting testSighting1 = new Sighting(testNormalAnimal.getId(), "Savannah", "Rodgers", testNormalAnimal.getType());
+        Sighting testSighting2 = new Sighting(testEndangeredAnimal.getId(), "Hills", "Rodgers", testEndangeredAnimal.getType());
         sql2oSightingsDao.save(testSighting1);
         sql2oSightingsDao.save(testSighting2);
     }
 
     public Sighting setUpSighting() {
-        Sighting sighting = new Sighting(1, "Up", "Rodgers");
+        Sighting sighting = new Sighting(1, "Up", "Rodgers", "normal");
         return sighting;
     }
 }
