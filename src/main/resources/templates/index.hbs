@@ -4,12 +4,66 @@
 <head>
     <title>WildLife Tracker</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        *, *::before, ::after {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            box-sizing: border-box;
+            font-size: 62.5%;
+            background-color: rgba(82,128,46,0.81);
+        }
+        .descriptionParagraph {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .div2 {
+            margin: auto;
+        }
+
+        .navbar-brand {
+            border-radius: 2rem;
+        }
+
+        img {
+            background: none;
+        }
+
+        nav {
+            font-size: 1rem;
+        }
+
+        small {
+            font-size: 1.3rem;
+        }
+
+        .endangeredAnimalSection {
+            font-size: 1.5rem;
+        }
+
+        .sightingSection {
+            font-size: 1.5rem;
+        }
+
+        .normalAnimalSection {
+            font-size: 1.5rem;
+        }
+
+
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <img src="https://i.postimg.cc/ZnkWVqDP/lion.jpg" alt="..." height="36">
+        <a class="navbar-brand" href="/">
+            <img src="https://i.postimg.cc/ZnkWVqDP/lion.jpg" alt="..." height="90" width="100">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -32,22 +86,64 @@
 <div class="container">
     <!--begin main template-->
 
-    <div class="col-md-12">
-        <h1>View All Your Sightings!</h1>
+    <div class="col-md-10 div2">
+        <h1 class="text-center">Hey there Ranger!</h1>
+        <p class="text-center"><small>Welcome to wildlife tracker 😃</small></p>
 
-        {{#if allSightings}}
-            {{#each allSightings}}
-                <p><a href="/animal/{{animalId}}/{{type}}">{{animalId}}</a></p>
-                <p>{{location}}</p>
-                <p>{{rangerName}}</p>
-                <p><em>{{sightedAt}}</em></p>
-            {{/each}}
-        {{else}}
-            <p>No sightings :(! Head over to the navbar and post a sighting.</p>
-        {{/if}}
+        <div class="descriptionParagraph">
+            <p>This is a web application designed just for you! It allows you to record wildlife sightings around your specific area and account for regular or endangered animals</p>
+        </div>
+
+
+            {{#if allSightings}}
+                <h2 class="text-center">All Sightings</h2>
+            <div class="sightingSection">
+                {{#each allSightings}}
+                    <p>Animal ID: {{animalId}}</p>
+                    <p>Location: {{location}}</p>
+                    <p>Ranger Name: {{rangerName}}</p>
+                    <p>Sighted At: <em>{{sightedAt}}</em></p>
+                    <p>Type: <em>{{type}}</em></p>
+                {{/each}}
+            {{else}}
+                <p>No sightings! Head over to the navbar and post a sighting.</p>
+            {{/if}}
+        </div>
+
         <br>
+
+
+            {{#if endangeredAnimals}}
+                <h2 class="text-center">Endangered Animals</h2>
+                <div class="endangeredAnimalSection">
+                    {{#each endangeredAnimals}}
+                        <p>Animal Name: {{name}}</p>
+                        <p>Animal ID: {{id}}</p>
+                        <p>Health: {{health}}</p>
+                        <p>Age: {{age}}</p>
+<!--                    <p><a href="/">Click here</a> to see more!</p>-->
+                    {{/each}}
+            {{else}}
+                <a></a>
+            {{/if}}
+                </div>
+
         <br>
-        <p><a href="/clearSightings">Clear</a> all your sightings</p>
+
+
+            {{#if normalAnimals}}
+                <h2 class="text-center">Normal Animals</h2>
+                <div class="normalAnimalSection">
+                    {{#each normalAnimals}}
+                        <p>Animal Name: {{name}}</p>
+                        <p>Animal ID: {{id}}</p>
+                    {{/each}}
+            {{else}}
+                <a></a>
+            {{/if}}
+                </div>
+
+        <br>
 
     </div>
 </div>

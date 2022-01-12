@@ -9,7 +9,7 @@ public class Sighting {
     private int animalId;
     private String location;
     private String ranger_name;
-    private Timestamp sighted_at;
+    private Timestamp sightedAt;
     private String type;
 
     public Sighting(int animalId, String location, String rangerName, String type) {
@@ -24,7 +24,7 @@ public class Sighting {
     }
 
     public Timestamp getSightedAt() {
-        return sighted_at;
+        return sightedAt;
     }
 
     public int getAnimalId() {

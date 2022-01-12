@@ -17,8 +17,6 @@ public interface sightingsDao {
 
     void clearAllSightings();
 
-    void addSightingAndAnimal(int sightingId, int animalId);
-
     NormalAnimal showNormalAnimal(int animalId, String type);
 
     EndangeredAnimal showEndangeredAnimal(int animalId, String type);

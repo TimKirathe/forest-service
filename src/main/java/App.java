@@ -11,12 +11,23 @@ import dao.*;
 import org.sql2o.*;
 
 public class App {
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+    }
 
     public static void main(String[] args) {
+
+        port(getHerokuAssignedPort());
         staticFileLocation("/public");
 
-        String connectionString = "jdbc:postgresql://localhost:5432/wildlife_tracker";
-        Sql2o sql2o = new Sql2o(connectionString, null, null);
+//        String connectionString = "jdbc:postgresql://ec2-3-232-22-121.compute-1.amazonaws.com:5432/dbie0sfc5mt62m";
+//        Sql2o sql2o = new Sql2o(connectionString, "bgyifudirguvza", "ce9fb937d9b5c0d02c15be407406c71b53ca8c269f8ce6353b43598931fdad63");
+            String connectionString = "jdbc:postgresql://localhost:5432/wildlife_tracker";
+            Sql2o sql2o = new Sql2o(connectionString, null, null);
         sql2oNormalAnimalDao sql2oNormalAnimalDao = new sql2oNormalAnimalDao(sql2o);
         sql2oEndangeredAnimalsDao sql2oEndangeredAnimalsDao = new sql2oEndangeredAnimalsDao(sql2o);
         sql2oSightingsDao sql2oSightingsDao = new sql2oSightingsDao(sql2o);
@@ -24,8 +35,12 @@ public class App {
         // get: Homepage
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
+            List<EndangeredAnimal> endangeredAnimals = sql2oEndangeredAnimalsDao.returnAll();
+            List<NormalAnimal> normalAnimals = sql2oNormalAnimalDao.returnAll();
             List<Sighting> allSightings = sql2oSightingsDao.returnAll();
             model.put("allSightings", allSightings);
+            model.put("endangeredAnimals", endangeredAnimals);
+            model.put("normalAnimals", normalAnimals);
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -43,8 +58,8 @@ public class App {
 
         //post: Post Normal Animal Form
         post("/normal-sightings/new", (request, response) -> {
-            Map<String, Object> model = new HashMap<>();
-            Integer animalId = Integer.parseInt(request.queryParams("animalId"));
+            String animalIdStr = request.queryParams("animalId");
+            int animalId = Integer.parseInt(animalIdStr);
             String animalName = request.queryParams("animalName");
             String animalType = request.queryParams("type");
             String location = request.queryParams("location");
@@ -53,62 +68,28 @@ public class App {
             sql2oNormalAnimalDao.save(normalAnimal);
             Sighting newSighting = new Sighting(animalId, location, rangerName, animalType);
             sql2oSightingsDao.save(newSighting);
-            List<NormalAnimal> normalAnimals = sql2oNormalAnimalDao.returnAll();
-            model.put("normalAnimals", normalAnimals);
             response.redirect("/");
             return null;
         }, new HandlebarsTemplateEngine());
 
         //post: Post Endangered Animal Form
         post("/endangered-sightings/new", (request, response) -> {
-            Map<String, Object> model = new HashMap<>();
-            Integer endangeredAnimalId = Integer.parseInt(request.queryParams("animalId"));
+            String endangeredAnimalIdStr = request.queryParams("animalId");
+            int endangeredAnimalId = Integer.parseInt(endangeredAnimalIdStr);
             String endangeredAnimalName = request.queryParams("animalName");
+            String type = request.queryParams("type");
             String health = request.queryParams("health");
             String age = request.queryParams("age");
-            String type = request.queryParams("type");
             String location = request.queryParams("location");
             String rangerName = request.queryParams("rangerName");
             EndangeredAnimal endangeredAnimal = new EndangeredAnimal(endangeredAnimalName, health, age);
             sql2oEndangeredAnimalsDao.save(endangeredAnimal);
             Sighting newSighting = new Sighting(endangeredAnimalId, location, rangerName, type);
             sql2oSightingsDao.save(newSighting);
-            List<EndangeredAnimal> endangeredAnimals = sql2oEndangeredAnimalsDao.returnAll();
-            model.put("endangeredAnimals", endangeredAnimals);
             response.redirect("/");
             return null;
         }, new HandlebarsTemplateEngine());
 
-        //get: Animal display page
-        get("/animal/:id/:type", (request, response) -> {
-            Map<String, Object> model = new HashMap<>();
-            Integer id = Integer.parseInt(request.params("id"));
-            String type = request.params("type");
-            if (Objects.equals(type, "normal")) {
-                NormalAnimal normalAnimal = sql2oSightingsDao.showNormalAnimal(id, type);
-                List<NormalAnimal> normalAnimals = new ArrayList<>();
-                normalAnimals.add(normalAnimal);
-                model.put("normal", true);
-                model.put("normalAnimal", normalAnimal);
-            }
-            else if (Objects.equals(type, "endangered")) {
-                EndangeredAnimal endangeredAnimal = sql2oSightingsDao.showEndangeredAnimal(id, type);
-                List<EndangeredAnimal> endangeredAnimals = new ArrayList<>();
-                endangeredAnimals.add(endangeredAnimal);
-                model.put("endangered", true);
-                model.put("endangeredAnimals", endangeredAnimals);
-            }
-            return new ModelAndView(model, "animal-display.hbs");
-        }, new HandlebarsTemplateEngine());
-
-        //get: Clear sightings
-        get("/clearSightings", (request, response) -> {
-            sql2oSightingsDao.clearAllSightings();
-            sql2oEndangeredAnimalsDao.clearAllAnimals();
-            sql2oNormalAnimalDao.clearAllAnimals();
-            response.redirect("/");
-            return null;
-        }, new HandlebarsTemplateEngine());
 
     }
 }

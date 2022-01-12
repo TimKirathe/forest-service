@@ -35,21 +35,18 @@
         <h1 class="text-center display-1">View The Animal</h1>
 
         {{#if normal}}
-            <h2 class="display-2">Normal Animal</h2>
-                <p>{{id}}</p>
-                <p>{{name}}</p>
-        {{/if}}
-        <hr>
-        {{#if endangered}}
-            <h2 class="display-2">Endangered Animal</h2>
-        {{#each endangeredAnimals}}
-            <p>{{id}}</p>
-            <p>{{name}}</p>
-            <p>{{health}}</p>
-            <p>{{age}}</p>
-        {{/each}}
+            <p>Animal ID: {{normalAnimal.id}}</p>
+            <p>Name of Animal: {{normalAnimal.name}}</p>
+            <p>Type of Animal: {{normalAnimal.type}}</p>
         {{/if}}
 
+        {{#if endangered}}
+            <div class="card-header">Id of animal: {{endangeredAnimal.id}}</div>
+            <p>Name of animal: {{endangeredAnimal.name}}</p>
+            <p>Health of animal: {{endangeredAnimal.health}}</p>
+            <p>Age of animal: {{endangeredAnimal.age}}</p>
+            <p>Type of Animal: {{endangeredAnimal.type}}</p>
+        {{/if}}
     </div>
 </div>
 <!--end main template-->

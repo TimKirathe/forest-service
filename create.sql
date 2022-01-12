@@ -12,15 +12,11 @@ CREATE TABLE animals
 CREATE TABLE sightings
 (
     id          SERIAL PRIMARY KEY,
-    animal_id   int,
+    animalid   int,
     location    varchar,
-    ranger_name varchar
-);
-
-CREATE TABLE sightings_animals (
-    id SERIAL PRIMARY KEY,
-    sightingid int,
-    animalid int
+    ranger_name varchar,
+    type varchar,
+    sightedat timestamp
 );
 
 CREATE DATABASE wildlife_tracker_test WITH TEMPLATE wildlife_tracker;

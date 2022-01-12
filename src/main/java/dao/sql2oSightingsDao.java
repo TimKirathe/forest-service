@@ -20,7 +20,7 @@ public class sql2oSightingsDao implements sightingsDao {
     @Override
     public void save(Sighting sighting) {
         try(Connection con = sql2o.open()) {
-            String sql = "INSERT INTO sightings (animalid, location, ranger_name, type, sighted_at) VALUES (:animalId, :location, :rangerName, :type, now())";
+            String sql = "INSERT INTO sightings (animalid, location, ranger_name, type, sightedat) VALUES (:animalId, :location, :rangerName, :type, now())";
             int id = (int) con.createQuery(sql)
                     .bind(sighting)
                     .addParameter("animalId", sighting.getAnimalId())
@@ -58,16 +58,6 @@ public class sql2oSightingsDao implements sightingsDao {
         }
     }
 
-    @Override
-    public void addSightingAndAnimal(int sightingId, int animalId ) {
-        try(Connection con = sql2o.open()) {
-            String sql = "INSERT INTO sightings_animals (sightingid, animalid) VALUES (:sightingId, :animalId)";
-            con.createQuery(sql)
-                    .addParameter("sightingId", sightingId)
-                    .addParameter("animalId", animalId)
-                    .executeUpdate();
-        }
-    }
 
     @Override
     public NormalAnimal showNormalAnimal(int animalId, String type) {
@@ -76,7 +66,8 @@ public class sql2oSightingsDao implements sightingsDao {
             String sql = "SELECT * FROM animals WHERE id = :id AND type = :type";
 
             return con.createQuery(sql).addParameter("id", animalId)
-                    .addParameter("type", type).executeAndFetchFirst(NormalAnimal.class);
+                    .addParameter("type" ,type)
+                    .executeAndFetchFirst(NormalAnimal.class);
 
         }
     }

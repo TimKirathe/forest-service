@@ -113,6 +113,16 @@ class SightingTest {
         sql2oSightingsDao.save(testSighting2);
     }
 
+    @Test
+    void seenEndangeredAnimalIsReturned() {
+        EndangeredAnimal testEndangeredAnimal = new EndangeredAnimal("Lion", "okay", "adult");
+        sql2oEndangeredAnimalsDao.save(testEndangeredAnimal);
+        Sighting sighting = new Sighting(testEndangeredAnimal.getId(), "tundra", "tim", testEndangeredAnimal.getType());
+        sql2oSightingsDao.save(sighting);
+        EndangeredAnimal seenEndangeredAnimal = sql2oSightingsDao.showEndangeredAnimal(testEndangeredAnimal.getId(), testEndangeredAnimal.getType());
+        assertEquals(testEndangeredAnimal, seenEndangeredAnimal);
+    }
+
     public Sighting setUpSighting() {
         Sighting sighting = new Sighting(1, "Up", "Rodgers", "normal");
         return sighting;
